@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<widget xmlns="http://www.w3.org/ns/widgets"
+        xmlns:rim="http://www.blackberry.com/ns/widgets"
+        version="1.0.0.0">
+
+		<name>Bluetooth Map</name>
+		<author>Lewisou</author>
+		<description>Locate data collected through bluetooth channel in Google Map.</description>
+		<icon src="images/icon.png" />
+		<content src="index.html" />
+
+		<feature id="vxmt.bluetooth.basic" required="true" version="1.0.0" />
+</widget>
