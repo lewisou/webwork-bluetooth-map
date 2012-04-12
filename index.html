@@ -2,18 +2,72 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width,target-densitydpi=device-dpi,user-scalable=no,initial-scale=1.0" />
+
+  <link rel="stylesheet" href="stylesheets/jquery.mobile-1.0.1.min.css" />
+  <link rel="stylesheet" href="stylesheets/app.css" />
+
+  <script src="javascripts/jquery-1.7.1.min.js"></script>
+  <script src="javascripts/jquery.mobile-1.0.1.min.js"></script>
+
   <title>Bluetooth MAP</title>
 </head>
 
 <body>
 
+    <div data-role="page">
+
+        <div id='menu_bar' data-role="header" class='ui-body-a'>
+
+            <div data-role="controlgroup" data-type="horizontal" id='menu_gb'>
+                <input type="checkbox" name="checkbox-6" id="checkbox-6" />
+                <label for="checkbox-6" x-blackberry-focusable="true">GPS</label>
+
+                <input type="checkbox" name="checkbox-7" id="checkbox-7" />
+                <label for="checkbox-7" x-blackberry-focusable="true">Bluetooth</label>
+                <a href="index.html" data-role="button" data-icon="gear" x-blackberry-focusable="true">Setting</a>
+            </div>
+
+            <div data-role="controlgroup" data-type="horizontal" id="menu_action">
+                <a href="index.html" data-role="button" data-icon="plus" x-blackberry-focusable="true">New</a>
+                <a href="index.html" data-role="button" data-icon="search" x-blackberry-focusable="true">Open</a>
+                <a href="index.html" data-role="button" data-icon="check" x-blackberry-focusable="true">Save</a>
+            </div>
+        </div>
+
+        <div id='content' data-role="content">    
+    		<ul data-role="listview" data-inset="true">
+    			<li>
+    				<h4>vloc log #145</h4>
+    				<p><strong>Current: 456, Frequency: 1234, Flash: 3456</strong></p>
+    				<p><small>23.123222 E, 122.12323 N</small></p>
+    				<p><small>2012-12-02 12:09AM</small></p>
+
+				    <div data-role="controlgroup" data-type="horizontal" class="ui-li-aside buttons-aside">
+            			<a href="index.html" data-role="button" data-icon="search" data-iconpos="notext">Map</a>
+            			<a href="index.html" data-role="button" data-icon="delete" data-iconpos="notext">Delete</a>
+            		</div>
+    			</li>
+    		</ul>
+        </div><!-- /content -->
+        
+        <div id='footer' data-role="footer" class="ui-bar">
+            <div data-role="controlgroup" data-type="horizontal" id='menu_email'>
+                <a href="index.html" data-role="button">Email</a>
+            </div>
+
+            <div data-role="controlgroup" data-type="horizontal">
+                <a href="index.html" data-role="button">Show Logs on the Map</a> 
+            </div>
+        </div>
+
+    </div><!-- /page -->
 
 
 <script>
-    var handle = vxmt.bluetooth.basic;
-    alert(handle.service_list[0]);
+    // var handle = vxmt.bluetooth.basic;
+    // alert(handle.service_list[0]);
     // handle.connect(handle.service_list[0]);
-    handle.connect('vLocPro');
+    // handle.connect('vLocPro');
 </script>
 </body>
 </html>

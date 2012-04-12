@@ -1,0 +1,56 @@
+#menu_bar {
+	position: fixed;
+	height: 45px;
+	z-index: 999;
+}
+
+#content {
+	padding-top: 45px;
+	padding-bottom: 45px;
+}
+
+#menu_bar,
+#content {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+#menu_bar label{
+	font-size: 13px;
+}
+
+#menu_action {
+/*	float:left;*/
+}
+
+#menu_map,
+#menu_gb,
+#menu_email {
+	float: right;
+}
+
+#menu_map {
+	margin-right: 15px;
+}
+
+#menu_gb,
+#menu_email {
+	margin-right: 30px;
+}
+
+
+
+#menu_action,
+#menu_gb {
+	overflow: auto;
+}
+
+#footer {
+	bottom: 0;
+  position: fixed;
+	z-index: 999;
+}
+
+.buttons-aside {
+	width: 100px;
+}
