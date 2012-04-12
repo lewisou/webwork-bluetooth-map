@@ -11,4 +11,8 @@
 		<content src="index.html" />
 
 		<feature id="vxmt.bluetooth.basic" required="true" version="1.0.0" />
+
+		<rim:navigation mode="focus" />
+		<feature id="blackberry.ui.dialog" />
+
 </widget>
