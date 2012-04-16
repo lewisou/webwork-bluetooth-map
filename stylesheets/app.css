@@ -1,6 +1,6 @@
 #menu_bar {
 	position: fixed;
-	height: 45px;
+	height: 50px;
 	z-index: 999;
 }
 
@@ -15,34 +15,32 @@
 	padding-right: 15px;
 }
 
+#menu_gb {
+	overflow: hidden;
+}
+
 #menu_bar label{
 	font-size: 13px;
+	overflow: hidden;
 }
 
-#menu_action {
-/*	float:left;*/
-}
-
+#menu_action,
 #menu_map,
 #menu_gb,
 #menu_email {
-	float: right;
+	float: left;
 }
 
-#menu_map {
+#menu_bar > div,
+#footer > div {
 	margin-right: 15px;
+	margin-left: 0;
 }
-
-#menu_gb,
-#menu_email {
-	margin-right: 30px;
-}
-
-
 
 #menu_action,
 #menu_gb {
 	overflow: auto;
+	margin-bottom: 0;
 }
 
 #footer {
