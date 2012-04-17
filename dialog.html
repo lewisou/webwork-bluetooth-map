@@ -1,0 +1,37 @@
+<!DOCTYPE html> 
+<html> 
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <title>Log Dialog</title> 
+</head> 
+<body> 
+    <div data-role="page">
+        <div data-role="header" data-theme="d">
+            <h1>Log Detail</h1>
+        </div>
+
+        <div data-role="content" data-theme="c">
+            <ul id='log_detail' data-role='listview'>
+            </ul>
+
+            <div style='clear:both'></div>
+
+            <a href="docs-dialogs.html" data-role="button" data-rel="back" data-theme="b">OK</a>
+        </div>
+
+        <script>
+            var culg = app.current_log;
+            $('#log_detail').append($('<li>' + culg.log_type + ' #' + culg.log_index + '</li>'));
+            $('#log_detail').append($('<li>Frequency: ' + culg.log_frequency + '</li>'));
+            $('#log_detail').append($('<li>Depth: ' + culg.log_depth + '</li>'));
+            $('#log_detail').append($('<li>Current: ' + culg.log_current + '</li>'));
+            $('#log_detail').append($('<li>Direction: ' + culg.log_direction + '</li>'));
+
+            // LOG, LFFF, #Log_Index, #Frequency, #depth, #Current, #DM_Current, #Direction(0/1)
+            
+        </script>
+
+    </div>
+</body>
+</html>

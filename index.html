@@ -9,132 +9,71 @@
   <script src="javascripts/jquery-1.7.1.min.js"></script>
   <script src="javascripts/jquery.mobile-1.0.1.min.js"></script>
 
+  <script src="javascripts/BluetoothData.js"></script>
+  <script src="javascripts/BluetoothMap.js"></script>
+
+
   <title>Bluetooth MAP</title>
 </head>
 
 <body>
-
     <div data-role="page">
-
-        <div id='menu_bar' data-role="header" class='ui-body-a'>
-            <div data-role="controlgroup" data-type="horizontal" id="menu_action">
-                <a href="index.html" data-role="button" data-icon="plus" x-blackberry-focusable="true">New</a>
-                <a href="index.html" data-role="button" data-icon="search" x-blackberry-focusable="true">Open</a>
-                <a href="index.html" data-role="button" data-icon="check" x-blackberry-focusable="true" title='Save'>Save</a>
-            </div>
-
-            <div data-role="controlgroup" data-type="horizontal" id='menu_gb'>
-                <input type="checkbox" name="checkbox-6" id="checkbox-6" />
-                <label for="checkbox-6" x-blackberry-focusable="true">GPS</label>
-
-                <input type="checkbox" name="checkbox-7" id="checkbox-7" />
-                <label for="checkbox-7" x-blackberry-focusable="true">Bluetooth</label>
-            </div>
-            
-            <div data-role="controlgroup" data-type="horizontal">
-                <a href="index.html" data-role="button" data-icon="gear" x-blackberry-focusable="true">Setting</a>
-            </div>
+        <div id='header' data-role="header" data-position="inline">
+            <a id='action_but' href="#" data-icon="grid">Action</a>
+            <h1>New Record</h1>
+            <a id='setting_but' href="#" data-icon="gear">Setting</a>
         </div>
 
-        <div id='content' data-role="content">    
-    		<ul data-role="listview" data-inset="true">
-    			<li>
-    				<h4>vloc #145, Current: 456, Frequency: 1234, Flash: 3456</h4>
-    				<p>23.123222 E, 122.12323 N, 2012-12-02 12:09AM</p>
-
-				    <div data-role="controlgroup" data-type="horizontal" class="ui-li-aside buttons-aside">
-            			<a href="index.html" data-role="button" data-icon="search" data-iconpos="notext">Map</a>
-            			<a href="index.html" data-role="button" data-icon="delete" data-iconpos="notext">Delete</a>
-            		</div>
-    			</li>
-    			<li>
-    				<h4>vloc #145, Current: 456, Frequency: 1234, Flash: 3456</h4>
-    				<p>23.123222 E, 122.12323 N, 2012-12-02 12:09AM</p>
-
-				    <div data-role="controlgroup" data-type="horizontal" class="ui-li-aside buttons-aside">
-            			<a href="index.html" data-role="button" data-icon="search" data-iconpos="notext">Map</a>
-            			<a href="index.html" data-role="button" data-icon="delete" data-iconpos="notext">Delete</a>
-            		</div>
-    			</li>
-    			<li>
-    				<h4>vloc #145, Current: 456, Frequency: 1234, Flash: 3456</h4>
-    				<p>23.123222 E, 122.12323 N, 2012-12-02 12:09AM</p>
-
-				    <div data-role="controlgroup" data-type="horizontal" class="ui-li-aside buttons-aside">
-            			<a href="index.html" data-role="button" data-icon="search" data-iconpos="notext">Map</a>
-            			<a href="index.html" data-role="button" data-icon="delete" data-iconpos="notext">Delete</a>
-            		</div>
-    			</li>
-    			<li>
-    				<h4>vloc #145, Current: 456, Frequency: 1234, Flash: 3456</h4>
-    				<p>23.123222 E, 122.12323 N, 2012-12-02 12:09AM</p>
-
-				    <div data-role="controlgroup" data-type="horizontal" class="ui-li-aside buttons-aside">
-            			<a href="index.html" data-role="button" data-icon="search" data-iconpos="notext">Map</a>
-            			<a href="index.html" data-role="button" data-icon="delete" data-iconpos="notext">Delete</a>
-            		</div>
-    			</li>
-    			<li>
-    				<h4>vloc #145, Current: 456, Frequency: 1234, Flash: 3456</h4>
-    				<p>23.123222 E, 122.12323 N, 2012-12-02 12:09AM</p>
-
-				    <div data-role="controlgroup" data-type="horizontal" class="ui-li-aside buttons-aside">
-            			<a href="index.html" data-role="button" data-icon="search" data-iconpos="notext">Map</a>
-            			<a href="index.html" data-role="button" data-icon="delete" data-iconpos="notext">Delete</a>
-            		</div>
-    			</li>
-    			<li>
-    				<h4>vloc #145, Current: 456, Frequency: 1234, Flash: 3456</h4>
-    				<p>23.123222 E, 122.12323 N, 2012-12-02 12:09AM</p>
-
-				    <div data-role="controlgroup" data-type="horizontal" class="ui-li-aside buttons-aside">
-            			<a href="index.html" data-role="button" data-icon="search" data-iconpos="notext">Map</a>
-            			<a href="index.html" data-role="button" data-icon="delete" data-iconpos="notext">Delete</a>
-            		</div>
-    			</li>
-    			<li>
-    				<h4>vloc #145, Current: 456, Frequency: 1234, Flash: 3456</h4>
-    				<p>23.123222 E, 122.12323 N, 2012-12-02 12:09AM</p>
-
-				    <div data-role="controlgroup" data-type="horizontal" class="ui-li-aside buttons-aside">
-            			<a href="index.html" data-role="button" data-icon="search" data-iconpos="notext">Map</a>
-            			<a href="index.html" data-role="button" data-icon="delete" data-iconpos="notext">Delete</a>
-            		</div>
-    			</li>
-    			<li>
-    				<h4>vloc #145, Current: 456, Frequency: 1234, Flash: 3456</h4>
-    				<p>23.123222 E, 122.12323 N, 2012-12-02 12:09AM</p>
-
-				    <div data-role="controlgroup" data-type="horizontal" class="ui-li-aside buttons-aside">
-            			<a href="index.html" data-role="button" data-icon="search" data-iconpos="notext">Map</a>
-            			<a href="index.html" data-role="button" data-icon="delete" data-iconpos="notext">Delete</a>
-            		</div>
-    			</li>
-
-    		</ul>
+        <div id='content' data-role="content">
+            <ul id='log_list' data-role="listview" data-inset="true">
+                <li>&nbsp;</li>
+            </ul>
         </div><!-- /content -->
-        
-        <div id='footer' data-role="footer" class="ui-bar">
-            <div data-role="controlgroup" data-type="horizontal" id='menu_email'>
-                <a href="index.html" data-role="button" x-blackberry-focusable="true">Email</a>
-            </div>
-
-            <div data-role="controlgroup" data-type="horizontal">
-                <a href="index.html" data-role="button" x-blackberry-focusable="true">Show Logs on the Map</a> 
-            </div>
-        </div>
 
     </div><!-- /page -->
 
-
 <script>
-    function call_back(mess) {
-        alert(mess);
+    var app = new BluetoothMap();
+    app.refresh_ui_list = function(bt_lg) {
+        var new_li = $("<li><a href='dialog.html' data-rel='dialog' data-transition='flip' data-log-id='145'>" +
+            bt_lg.log_type + ' #' + bt_lg.log_index +
+            ', Frequency:' + bt_lg.log_frequency +
+            ', Depth:' + bt_lg.log_depth +
+            ', Current:' + bt_lg.log_current + 
+            ', Direction:' + bt_lg.log_direction +
+        "</a></li>");
+
+// #Log_Index, #Frequency, #depth, #Current, #DM_Current, #Direction(0/1)
+
+        var list = $('#log_list');
+        if($('#log_list').children().size() == 0) {
+            list.append(new_li);
+        } else {
+            new_li.insertBefore(list.children().first());
+        }
+        list.listview('refresh');
+    };
+
+    $('#action_but').bind('click', function(evt){
+        app.pop_menu();
+        evt.preventDefault();
+    });
+
+    $('a', $('#log_list')).live('click', function(evt){
+        var li = $(this).parent();
+        var index = li.parent().children().index(li);
+
+        app.current_log = app.logs[index];
+    });
+
+    function customMenuItemClick() {
+        alert("user just clicked me");
     }
-    var handle = vxmt.bluetooth.basic;
-    // alert(handle.service_list[0]);
-    // handle.connect(handle.service_list[0]);
-    handle.connect('vLocPro', 'call_back');
+    // function bluetooth_callback(mess) {
+        // app.bluetooth_mess_arrived(mess);
+    // }
+    app.start_map('app.bluetooth_mess_arrived');
+    
 </script>
 </body>
 </html>

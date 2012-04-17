@@ -1,46 +1,11 @@
-#menu_bar {
+#header {
 	position: fixed;
-	height: 50px;
 	z-index: 999;
 }
 
 #content {
 	padding-top: 45px;
-	padding-bottom: 45px;
-}
-
-#menu_bar,
-#content {
-	padding-left: 15px;
-	padding-right: 15px;
-}
-
-#menu_gb {
-	overflow: hidden;
-}
-
-#menu_bar label{
-	font-size: 13px;
-	overflow: hidden;
-}
-
-#menu_action,
-#menu_map,
-#menu_gb,
-#menu_email {
-	float: left;
-}
-
-#menu_bar > div,
-#footer > div {
-	margin-right: 15px;
-	margin-left: 0;
-}
-
-#menu_action,
-#menu_gb {
-	overflow: auto;
-	margin-bottom: 0;
+/*	padding-bottom: 45px;*/
 }
 
 #footer {
@@ -49,6 +14,10 @@
 	z-index: 999;
 }
 
-.buttons-aside {
-	width: 100px;
+#footer p {
+	margin: 0;
+}
+
+#log_detail {
+	margin-bottom: 20px;
 }

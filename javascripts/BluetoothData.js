@@ -1,7 +1,39 @@
-var BluetoothData = function(String raw_data){
-    
+// LOG, LFFF, #Log_Index, #Frequency, #depth, #Current, #DM_Current, #Direction(0/1)
+// 
+// LOG, LOC, #Log_Index, #Frequency, #depth, #Current, #Direction(0/1/2)
+// 
+// Where 0 for forward, 1 for backward, and 2 for undetermined.
+
+var BluetoothData = function(raw_data){
+    this.log_data = raw_data;
+    this.array_data = raw_data.split(",");
+    this.array_data = $(this.array_data).map(function(i, ele){
+        return i <= 1 ? ele : parseInt(ele);
+    });
+
+    this.log_type = this.array_data[1];
+    this.log_index = this.array_data[2];
+    this.log_frequency = this.array_data[3];
+    this.log_depth = this.array_data[4];
+    this.log_current = this.array_data[5];
+    this.log_dm_current = this.array_data[6];
+    this.log_direction = this.array_data[this.array_data.length - 1];
+
+    switch (this.log_direction) {
+        case 0: this.log_direction = 'Forward'; break;
+        case 1: this.log_direction = 'Backward'; break;
+        case 2: this.log_direction = 'Undetermined'; break;
+    }
 }
 
-BluetoothData.prototype.getCurrent = function() {
-    
+BluetoothData.prototype.geo_success = function(coordinates) {
+    alert(this.log_index + 'success');
+}
+
+BluetoothData.prototype.geo_failed = function(coordinates) {
+    alert(this.log_index + 'failed');
+}
+
+BluetoothData.prototype.fetech_geo = function() {
+    app.get_geo(this.geo_success, this.geo_failed);
 }
