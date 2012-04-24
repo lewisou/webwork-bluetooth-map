@@ -11,8 +11,13 @@
 		<content src="index.html" />
 
 		<feature id="vxmt.bluetooth.basic" required="true" version="1.0.0" />
+		<!--Real-Time GPS Support-->
+		<feature id="vxmt.gps.basic" required="true" version="1.0.0" />
+
 		<feature id="blackberry.ui.menu" />
+		<feature id="blackberry.ui.dialog" />
+		<feature id="blackberry.system.event" />
 
 		<rim:navigation mode="focus" />
-		<feature id="blackberry.ui.dialog" />
+		<access uri="http://maps.googleapis.com" subdomains="true" />
 </widget>

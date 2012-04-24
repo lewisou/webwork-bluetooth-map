@@ -1,0 +1,31 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <title>GPS Fixing</title>
+</head>
+<body>
+    <div data-role="page">
+        <div data-role="header" data-theme="d">
+            <h1>Waiting for gpx signals...</h1>
+        </div>
+
+        <div data-role="content" data-theme="c">
+            <p id='waiting_gps_fixing_label'>Waiting for GPS signals.</p>
+            <a id='cancel_but' href="#" data-role="button" data-rel="back" data-theme="d">Cancel</a>
+        </div>
+
+        <script>
+            $('#cancel_but').bind('click', function() {
+                app.waiting_gps = false;
+            });
+
+            app.waiting_gps_render = function() {
+                $('#waiting_gps_fixing_label').append(' .');
+            }
+        </script>
+
+    </div>
+</body>
+</html>

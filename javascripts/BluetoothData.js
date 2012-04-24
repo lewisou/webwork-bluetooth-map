@@ -26,14 +26,12 @@ var BluetoothData = function(raw_data){
     }
 }
 
-BluetoothData.prototype.geo_success = function(coordinates) {
-    alert(this.log_index + 'success');
-}
+BluetoothData.prototype = {
+    gps: {},
+    has_gps: false,
 
-BluetoothData.prototype.geo_failed = function(coordinates) {
-    alert(this.log_index + 'failed');
-}
-
-BluetoothData.prototype.fetech_geo = function() {
-    app.get_geo(this.geo_success, this.geo_failed);
+    set_gps : function(data) {
+        this.gps = data;
+        this.has_gps = true;
+    }
 }

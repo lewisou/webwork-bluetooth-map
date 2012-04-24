@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="viewport" content="width=device-width,target-densitydpi=device-dpi,user-scalable=no,initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width,height=device-height,target-densitydpi=device-dpi,user-scalable=no,initial-scale=1.0" />
 
   <link rel="stylesheet" href="stylesheets/jquery.mobile-1.0.1.min.css" />
   <link rel="stylesheet" href="stylesheets/app.css" />
@@ -11,7 +11,7 @@
 
   <script src="javascripts/BluetoothData.js"></script>
   <script src="javascripts/BluetoothMap.js"></script>
-
+  <script src="javascripts/GoogleImageApi.js"></script>
 
   <title>Bluetooth MAP</title>
 </head>
@@ -34,8 +34,9 @@
 
 <script>
     var app = new BluetoothMap();
+
     app.refresh_ui_list = function(bt_lg) {
-        var new_li = $("<li><a href='dialog.html' data-rel='dialog' data-transition='flip' data-log-id='145'>" +
+        var new_li = $("<li><a href='dialog.html' data-transition='fade' data-log-id='145'>" +
             bt_lg.log_type + ' #' + bt_lg.log_index +
             ', Frequency:' + bt_lg.log_frequency +
             ', Depth:' + bt_lg.log_depth +
@@ -43,7 +44,7 @@
             ', Direction:' + bt_lg.log_direction +
         "</a></li>");
 
-// #Log_Index, #Frequency, #depth, #Current, #DM_Current, #Direction(0/1)
+        // #Log_Index, #Frequency, #depth, #Current, #DM_Current, #Direction(0/1)
 
         var list = $('#log_list');
         if($('#log_list').children().size() == 0) {
@@ -60,20 +61,13 @@
     });
 
     $('a', $('#log_list')).live('click', function(evt){
-        var li = $(this).parent();
-        var index = li.parent().children().index(li);
+        var li = $(this);
+        var index = $('#log_list a').index(li);
 
         app.current_log = app.logs[index];
     });
 
-    function customMenuItemClick() {
-        alert("user just clicked me");
-    }
-    // function bluetooth_callback(mess) {
-        // app.bluetooth_mess_arrived(mess);
-    // }
-    app.start_map('app.bluetooth_mess_arrived');
-    
+    app.start_map('app');
 </script>
 </body>
 </html>

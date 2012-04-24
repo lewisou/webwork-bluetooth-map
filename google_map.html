@@ -1,0 +1,23 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <title>GPS Fixing</title>
+</head>
+<body>
+    <div id='google_page' data-role="page">
+        <script>
+            var map_url = new GoogleImageApi(app.logs, $('#google_page').height(), $('#google_page').width()).request_uri();
+            alert($('#google_page').height());
+            alert($('#google_page').width());
+            $('#google_page').append($('<img id="google_map" src="' + map_url + '" />'));
+
+            blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, function(){
+                app.switch_page('index');
+                // remove event
+            });
+        </script>
+    </div>
+</body>
+</html>
