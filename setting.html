@@ -1,0 +1,52 @@
+<!DOCTYPE html> 
+
+<html>
+    <head>
+    <title>Setting</title>
+</head>
+
+<body>
+    <div id='google_page' data-role="page">
+        <div id='header' data-role="header" data-position="inline">
+            <h1>Setting</h1>
+        </div>
+
+        <div id='content' data-role="content">
+        <fieldset id='locator_bts' data-role="controlgroup">
+            <legend>Locator</legend>
+        </fieldset>
+
+        <fieldset data-role="controlgroup">
+            <legend>GPS</legend>
+            <input type="radio" name="radio-choice-1" id="radio-choice-1" value="choice-1" checked="checked" />
+            <label for="radio-choice-1">Internal</label>
+        </fieldset>
+
+        <a href="#" id='setting_save_but' data-role="button" data-rel='back' data-theme='b'>Save</a>
+        <a href="#" data-role="button" data-rel='back'>Cancel</a>
+        </div>
+
+        <script>
+            alert('123');
+            var bluetooth = vxmt.bluetooth.basic;
+            alert('456');
+            var services = bluetooth.service_list();
+
+            alert('789');
+            alert(services.length);
+            // var services = ['asd', 'sadf'];
+            $(services).each(function(ind, ele){
+                var option = $('<input name="locator-service-name" type="radio" id="radio-locator-' + ind + '" value="' + ele + '" />\
+                <label for="radio-locator-' + ind + '">' + ele + '</label>');
+
+                $('#locator_bts').append(option);
+            });
+
+            $('#setting_save_but').bind('click', function() {
+                connect_to_locator($('#locator_bts input:radio:checked').val());
+            });
+        </script>
+    </div>
+</body>
+
+</html>

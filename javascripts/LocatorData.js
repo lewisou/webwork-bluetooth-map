@@ -4,7 +4,7 @@
 // 
 // Where 0 for forward, 1 for backward, and 2 for undetermined.
 
-var BluetoothData = function(raw_data){
+var LocatorData = function(raw_data){
     this.log_data = raw_data;
     this.array_data = raw_data.split(",");
     this.array_data = $(this.array_data).map(function(i, ele){
@@ -26,7 +26,7 @@ var BluetoothData = function(raw_data){
     }
 }
 
-BluetoothData.prototype = {
+LocatorData.prototype = {
     gps: {},
     has_gps: false,
 

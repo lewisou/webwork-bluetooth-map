@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Save to KML</title>
+</head>
+<body>
+    <div data-role="page">
+
+        <div data-role="header" data-theme="d" x-blackberry-focusable="false">
+            <h1>Save to KML</h1>
+        </div>
+
+        <div data-role="content" data-theme="c">
+            <label for="basic" x-blackberry-focusable="false">Text Input:</label>
+            <input type="text" id="kml_file_name" data-mini="true" x-blackberry-focusable="true" />
+            <a id='save_kml_but' href="#" data-role="button" data-rel="back" data-theme="b" x-blackberry-focusable="true">Save</a>
+            <a href="#" data-role="button" data-rel="back" data-theme="c" x-blackberry-focusable="true">Cancel</a>
+        </div>
+
+        <script>
+            $('#kml_file_name').focus();
+            $('#save_kml_but').bind("click", function(){
+                var kmlFilePath = app.file_path + $('#kml_file_name').val() + '.kml'
+                var jsonFilePath = app.file_path + $('#kml_file_name').val() + '.json'
+                var kml = new KML(app);
+                alert('Start to save.');
+                blackberry.io.file.saveFile(kmlFilePath, blackberry.utils.documentToBlob(kml.kml_stream()));
+                blackberry.io.file.saveFile(jsonFilePath, blackberry.utils.documentToBlob(JSON.stringify(app.logs)));
+                alert('Save finished.');
+            });
+        </script>
+
+    </div>
+</body>
+</html>

@@ -8,10 +8,13 @@
 
   <script src="javascripts/jquery-1.7.1.min.js"></script>
   <script src="javascripts/jquery.mobile-1.0.1.min.js"></script>
+  <script src="javascripts/vxmt_jquery_ext.js"></script>
 
-  <script src="javascripts/BluetoothData.js"></script>
+  <script src="javascripts/LocatorData.js"></script>
   <script src="javascripts/BluetoothMap.js"></script>
   <script src="javascripts/GoogleImageApi.js"></script>
+  <script src="javascripts/GPRMC.js"></script>
+  <script src="javascripts/KML.js"></script>
 
   <title>Bluetooth MAP</title>
 </head>
@@ -33,7 +36,7 @@
     </div><!-- /page -->
 
 <script>
-    var app = new BluetoothMap();
+    var app = new BluetoothMap('app');
 
     app.refresh_ui_list = function(bt_lg) {
         var new_li = $("<li><a href='dialog.html' data-transition='fade' data-log-id='145'>" +
@@ -67,7 +70,8 @@
         app.current_log = app.logs[index];
     });
 
-    app.start_map('app');
+    app.start_map();
+
 </script>
 </body>
 </html>

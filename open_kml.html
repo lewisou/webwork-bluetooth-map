@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Select KML</title>
+</head>
+<body>
+    <div id='google_page' data-role="page">
+        <ul id='kml_list' data-role="listview" data-inset="true">
+            <li>&nbsp;</li>
+        </ul>
+
+        <script>
+            var files = blackberry.io.dir.listFiles(app.file_path);
+            var i = 0;
+            for (i = 0; i < files.length; i ++) {
+                alert(files[i]);
+                $('#kml_list').append($('<li><a href="">' + files[i] +  '</a></li>'));
+            }
+            $('#kml_list').listview('refresh');
+        </script>
+    </div>
+</body>
+</html>

@@ -4,20 +4,23 @@
         xmlns:rim="http://www.blackberry.com/ns/widgets"
         version="1.0.0.0">
 
-		<name>Bluetooth Map</name>
-		<author>Lewisou</author>
-		<description>Locate data collected through bluetooth channel in Google Map.</description>
-		<icon src="images/icon.png" />
-		<content src="index.html" />
+    <name>Bluetooth Map</name>
+    <author>Vivax-Metrotech</author>
+    <description>Show locator data collected through bluetooth channel in Google Map.</description>
+    <icon src="images/icon.png" />
+    <content src="index.html" />
 
-		<feature id="vxmt.bluetooth.basic" required="true" version="1.0.0" />
-		<!--Real-Time GPS Support-->
-		<feature id="vxmt.gps.basic" required="true" version="1.0.0" />
+    <feature id="blackberry.ui.menu" />
+    <feature id="blackberry.ui.dialog" />
+    <feature id="blackberry.system.event" />
+    <feature id="blackberry.io.dir" />
+    <feature id="blackberry.io.file" />
 
-		<feature id="blackberry.ui.menu" />
-		<feature id="blackberry.ui.dialog" />
-		<feature id="blackberry.system.event" />
+    <feature id="vxmt.bluetooth.basic" required="true" version="1.0.0" />
+    <feature id="vxmt.gps.basic" required="true" version="1.0.0" />
 
-		<rim:navigation mode="focus" />
-		<access uri="http://maps.googleapis.com" subdomains="true" />
+    <access uri="http://maps.googleapis.com" subdomains="true" />
+
+    <rim:navigation mode="focus" />
+
 </widget>
