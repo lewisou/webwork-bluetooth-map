@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width,height=device-height,target-densitydpi=device-dpi,user-scalable=no,initial-scale=1.0" />
+
+  <link rel="stylesheet" href="stylesheets/jquery.mobile-1.0.1.min.css" />
+  <link rel="stylesheet" href="stylesheets/app.css" />
+
+  <script src="javascripts/jquery-1.7.1.min.js"></script>
+  <script src="javascripts/jquery.mobile-1.0.1.min.js"></script>
+  <script src="javascripts/vxmt_jquery_ext.js"></script>
+
+  <script src="javascripts/LocatorData.js"></script>
+  <script src="javascripts/BluetoothMap.js"></script>
+  <script src="javascripts/GoogleImageApi.js"></script>
+  <script src="javascripts/GPRMC.js"></script>
+  <script src="javascripts/KML.js"></script>
+
+  <title>Bluetooth MAP</title>
+</head>
+
+<body>
+    <div id='index-page' data-role="page">
+        <div id='header' data-role="header" data-position="inline">
+            <!--a id='action_but' href="#" data-icon="grid">Action</a-->
+            <h1>New Record</h1>
+            <!--a id='setting_but' href="#" data-icon="gear">Setting</a-->
+        </div>
+
+        <div id='content' data-role="content">
+            <ul id='log_list' data-role="listview" data-inset="true">
+                <li>&nbsp;</li>
+            </ul>
+        </div><!-- /content -->
+
+    </div><!-- /page -->
+
+    <script>
+        var app = new BluetoothMap('app');
+
+        app.refresh_ui_list = function(bt_lg) {
+            var new_li = $("<li class='log'><a href='dialog.html' data-transition='fade' data-log-id='145'>" +
+                bt_lg.log_type + ' #' + bt_lg.log_index +
+                ', Frequency:' + bt_lg.log_frequency +
+                ', Depth:' + bt_lg.log_depth +
+                ', Current:' + bt_lg.log_current + 
+                ', Direction:' + bt_lg.log_direction +
+            "</a></li>");
+
+            // #Log_Index, #Frequency, #depth, #Current, #DM_Current, #Direction(0/1)
+
+            var list = $('#log_list');
+            if($('#log_list').children().size() == 0) {
+                list.append(new_li);
+            } else {
+                new_li.insertBefore(list.children().first());
+            }
+            list.listview('refresh');
+        };
+
+        $('#action_but').bind('click', function(evt){
+            app.pop_menu();
+            evt.preventDefault();
+        });
+
+        $('a', $('#log_list')).live('click', function(evt){
+            var li = $(this);
+            var index = $('#log_list a').index(li);
+
+            app.current_log = app.logs[index];
+        });
+
+        $(document).delegate("#index-page", "pageinit", function() {
+            $('#log_list li.log').remove();
+            $(app.logs).each(function(ind, ele) {
+              app.refresh_ui_list(ele);
+            });
+        });
+
+        app.init_menus();
+    </script>
+</body>
+</html>

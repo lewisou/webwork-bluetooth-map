@@ -23,39 +23,39 @@ BluetoothMap.prototype = {
             mh.clearMenuItems();
         }
 
-        // mh.addMenuItem(
-        //     new mh.MenuItem(false, 1, "Map View", function() {
-        //         real_this.switch_page('google_map');
-        //     })
-        // );
-
-        // mh.addMenuItem(
-        //     new mh.MenuItem(false, 2, "Open", function() {
-        //         real_this.switch_page('open_kml');
-        //     })
-        // );
+        mh.addMenuItem(
+            new mh.MenuItem(false, 1, "Map View", function() {
+                real_this.switch_page('google_map');
+            })
+        );
 
         mh.addMenuItem(
-            new mh.MenuItem(false, 1, "Save", function() {
+            new mh.MenuItem(false, 2, "Open", function() {
+                real_this.switch_page('open_kml');
+            })
+        );
+
+        mh.addMenuItem(
+            new mh.MenuItem(false, 3, "Save", function() {
                 if(real_this.saved_file) {
                     real_this.save_file();
                 } else {
-                    real_this.switch_page('save_kml');
+                    real_this.switch_page('kml_saving');
                 }
             })
         );
 
-        // mh.addMenuItem(
-        //     new mh.MenuItem(false, 4, "Setting", function() {
-        //         real_this.switch_page('setting');
-        //     })
-        // );
+        mh.addMenuItem(
+            new mh.MenuItem(false, 4, "Setting", function() {
+                real_this.switch_page('setting');
+            })
+        );
 
-        // mh.addMenuItem(
-        //     new mh.MenuItem(false, 5, "Start Record", function() {
-        //         real_this.start_map();
-        //     })
-        // );
+        mh.addMenuItem(
+            new mh.MenuItem(false, 5, "Start Record", function() {
+                real_this.start_map();
+            })
+        );
     },
 
 
@@ -74,9 +74,7 @@ BluetoothMap.prototype = {
             // bluetooth.connect(this.external_gps_bt_key, 'vLocPro', this.map_name + '.show_gps_mess');
             var gps = vxmt.gps.basic;
             gps.start_listen(this.map_name + '.gps_mess_arrived');
-
-            var locator_saved_addr = this.get_locator_addr() || '';
-            real_this.connect_to_locator(locator_saved_addr);
+            real_this.connect_to_locator('vLocPro');
 
             // setInterval(function(){
             //     var rmc = new GPRMC(23.232321, 213.232323);
@@ -92,52 +90,44 @@ BluetoothMap.prototype = {
         }
     },
 
-    connect_to_locator : function(bt_addr) {
+    connect_to_locator : function(bt_name) {
         var bluetooth = vxmt.bluetooth.basic;
         if(this.locator_bt_key) {
             bluetooth.close(locator_bt_key);
         }
         this.locator_bt_key = this.map_name + '_locator_' + new Date().getTime();
 
-        bluetooth.connect(this.locator_bt_key, bt_addr, this.map_name + '.bluetooth_mess_arrived');
+        bluetooth.connect(this.locator_bt_key, bt_name, this.map_name + '.bluetooth_mess_arrived');
+    },
+
+    show_gps_mess : function(mess) {
+        // alert(mess);
     },
 
     waiting_gps : false,
     bluetooth_mess_arrived : function(mess) {
         var p_this = this;
         var log = new LocatorData(mess);
-        log.set_gps(p_this.latest_gps.values);
-        p_this.logs.unshift(log);
-        // alert(this.latest_gps.values.lat || 0);
-        // alert(this.latest_gps.values.longt || 0);
 
-        var newPointLocation = new google.maps.LatLng(this.latest_gps.values.lat || 0, this.latest_gps.values.longt || 0);
-        var newPoint = new google.maps.Marker({
-            position: newPointLocation,
-            title: mess
-        });
-        newPoint.setMap(this.map);
-        this.map.setCenter(newPointLocation);
-        // this.latest_gps.expired = true;
-        // this.waiting_gps = true;
-        
+        this.latest_gps.expired = true;
+        this.waiting_gps = true;
 
-        // $.mobile.changePage('gps_fixing.html', { transition: 'fade', role : 'dialog'});
+        $.mobile.changePage('gps_fixing.html', { transition: 'fade', role : 'dialog'});
 
-        // var loop = setInterval(function() {
-        //     p_this.waiting_gps_render();
-        // 
-        //     if(!p_this.waiting_gps || !p_this.latest_gps.expired) {
-        //         if(!p_this.latest_gps.expired) {
-        //             log.set_gps(p_this.latest_gps.values);
-        //         }
-        //         clearInterval(loop);
-        //         $.mobile.changePage('index.html', { transition: 'fade'} );
-        // 
-        //         p_this.logs.unshift(log);
-        //         p_this.refresh_ui_list(log);
-        //     }
-        // }, 1000);
+        var loop = setInterval(function() {
+            p_this.waiting_gps_render();
+
+            if(!p_this.waiting_gps || !p_this.latest_gps.expired) {
+                if(!p_this.latest_gps.expired) {
+                    log.set_gps(p_this.latest_gps.values);
+                }
+                clearInterval(loop);
+                $.mobile.changePage('index.html', { transition: 'fade'} );
+
+                p_this.logs.unshift(log);
+                p_this.refresh_ui_list(log);
+            }
+        }, 1000);
     },
 
     write_test_gps_mess : function(mess) {
@@ -146,27 +136,22 @@ BluetoothMap.prototype = {
     },
 
     gps_mess_arrived : function(lat, longt) {
-        //set latest point
         this.latest_gps = {
             expired: false,
             values: {'lat' : lat, 'longt' : longt}
         };
-
-        //write back to locator
-        var bluetooth = vxmt.bluetooth.basic;
         var gps_data = new GPRMC(lat, longt);
+        var bluetooth = vxmt.bluetooth.basic;
+
         this.write_test_gps_mess(gps_data.mock_text());
         this.write_test_gps_mess(gps_data.mock_gga_text());
     },
 
     switch_page : function(page) {
-        // var param = {}
-        // // arguments.length > 1 ? arguments[1] : {transition: 'flip'}
-        // $.mobile.changePage(page + '.html', param);
-        // // $('#' + page + '-page').trigger( "pageinit" );
-
-        $('div.page').hide();
-        $('#' + page).show();
+        var param = {}
+        // arguments.length > 1 ? arguments[1] : {transition: 'flip'}
+        $.mobile.changePage(page + '.html', param);
+        // $('#' + page + '-page').trigger( "pageinit" );
     },
 
     pop_menu : function() {
@@ -200,41 +185,9 @@ BluetoothMap.prototype = {
         this.saved_file = true;
     },
 
-    init_google_map : function(div_id) {
-      var init_center = new google.maps.LatLng(-25.363882,131.044922);
+    refresh_ui_list : function() {},
 
-      var myOptions = {
-        center: init_center,
-        zoom: 13,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        panControl: true,
-        zoomControl: true
-      };
-      this.map = new google.maps.Map(document.getElementById(div_id), myOptions);
+    waiting_gps_render : function() {}
 
-      // var marker = new google.maps.Marker({
-      //     position: myLatlng,
-      //     title:"Hello World!"
-      // });
 
-      // To add the marker to the map, call setMap();
-      // marker.setMap(map);
-      // app.init_menus();
-    },
-
-    bt_device_list : function() {
-      var services = vxmt.bluetooth.basic.service_list();
-      return $(services).map(function(_index, ele){
-        var vals = ele.split("||");
-        return {name : vals[0], addr : vals[1]};
-      });
-    },
-
-    save_locator_addr : function(addr) {
-      localStorage.setItem("locator_addr", addr);
-    },
-
-    get_locator_addr : function() {
-      return localStorage.getItem('locator_addr');
-    }
 };

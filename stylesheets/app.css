@@ -1,32 +1,16 @@
-body {
-	margin: 0 !important;
-	padding: 0 !important;
-}
-#header {
-	position: fixed;
-	z-index: 999;
-}
-
-#content {
-	padding-top: 45px;
-/*	padding-bottom: 45px;*/
-}
-
-#footer {
-	bottom: 0;
-  position: fixed;
-	z-index: 999;
-}
-
-#footer p {
-	margin: 0;
-}
-
-#log_detail {
-	margin-bottom: 20px;
-}
-
-#google_page {
-	width: 100%;
+html { height: 100% }
+body { height: 100%; margin: 0; padding: 0 }
+#map_canvas { height: 100% }
+.page {
 	height: 100%;
+	width: 100%;
+/*	display: none;*/
+}
+
+.page {
+	z-index: 3;
+	background-color: #fff;
+	position: absolute;
+	top: 0;
+	left: 0;
 }

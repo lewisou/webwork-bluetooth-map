@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <div id='google_page' data-role="page">
+    <div id='setting-page' data-role="page">
         <div id='header' data-role="header" data-position="inline">
             <h1>Setting</h1>
         </div>
@@ -23,29 +23,30 @@
         </fieldset>
 
         <a href="#" id='setting_save_but' data-role="button" data-rel='back' data-theme='b'>Save</a>
-        <a href="#" data-role="button" data-rel='back'>Cancel</a>
         </div>
 
         <script>
-            alert('123');
-            var bluetooth = vxmt.bluetooth.basic;
-            alert('456');
-            var services = bluetooth.service_list();
+            $(document).delegate("#setting-page", "pageinit", function() {
+                var services = vxmt.bluetooth.basic.service_list();
+                // var services = ['asd', 'sadf'];
+                $(services).each(function(ind, ele){
+                    var option = $('<input name="locator-service-name" type="radio" id="radio-locator-' + ind + '" value="' + ele + '" />\
+                    <label for="radio-locator-' + ind + '">' + ele + '</label>');
 
-            alert('789');
-            alert(services.length);
-            // var services = ['asd', 'sadf'];
-            $(services).each(function(ind, ele){
-                var option = $('<input name="locator-service-name" type="radio" id="radio-locator-' + ind + '" value="' + ele + '" />\
-                <label for="radio-locator-' + ind + '">' + ele + '</label>');
-
-                $('#locator_bts').append(option);
-            });
-
-            $('#setting_save_but').bind('click', function() {
-                connect_to_locator($('#locator_bts input:radio:checked').val());
+                    $('#locator_bts').append(option);
+                });
+                $('#locator_bts').trigger("create");
+                
+                $('#setting_save_but').bind('click', function() {
+                    app.connect_to_locator($('#locator_bts input:radio:checked').val());
+                });
+                blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, function(){
+                    app.switch_page('index');
+                    blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, null);
+                });
             });
         </script>
+
     </div>
 </body>
 

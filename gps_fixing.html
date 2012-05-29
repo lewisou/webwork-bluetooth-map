@@ -22,6 +22,12 @@
             app.waiting_gps_render = function() {
                 $('#waiting_gps_fixing_label').append(' .');
             }
+
+            blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, function(){
+                app.switch_page('index');
+                blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, null);
+            });
+
         </script>
 
     </div>
