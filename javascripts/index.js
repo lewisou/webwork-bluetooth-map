@@ -3,18 +3,16 @@ var app;
 //init
 function init_pages(){
   //init setting page --------------------------------------------------
-  var devices = app.bt_device_list();
-  // var devices = [{name : 'locator', addr : '1.23.2'}, {name : 'locator2', addr : '1.23.4'}];
-
+  var devices = vxmt ? app.bt_device_list() : [{name : 'locator', addr : '1.23.2'}, {name : 'locator2', addr : '1.23.4'}];
   $(devices).each(function(ind, ele){
-      var option = $('<input name="locator-addr" type="radio" id="radio-locator-' + ind + '" value="' + ele.addr + '" />\
-      <label for="radio-locator-' + ind + '">' + ele.name + '</label>');
+      var option = $('<li><input name="locator-addr" type="radio" id="radio-locator-' + ind + '" value="' + ele.addr + '" />\
+      <label for="radio-locator-' + ind + '">' + ele.name + '-' + ele.addr + '</label></li>');
 
       if(ele.addr == app.get_locator_addr()) {
-        option.click();
+        $('input', option).click();
       }
 
-      $('#setting').append(option);
+      $('#setting ul.devices').append(option);
   });
   $('#setting input').live('click', function(){
     app.save_locator_addr($(this).attr('value'));
@@ -22,8 +20,7 @@ function init_pages(){
 
   //init open kml page --------------------------------------------------
   $('#open_kml .file_list').children().remove();
-  var files = blackberry.io.dir.listFiles(app.file_path);
-  // var files = ['a.kml', 'a.json', 'b.kml', 'b.json'];
+  var files =  vxmt ? blackberry.io.dir.listFiles(app.file_path) : ['a.kml', 'a.json', 'b.kml', 'b.json'];
   var i = 0;
   for (i = 0; i < files.length; i ++) {
       if(files[i].substr(-3) == 'kml') {
@@ -32,20 +29,18 @@ function init_pages(){
           $('#open_kml .file_list').append(new_ele);
       }
   }
-
   $('#open_kml .file_list a').live('click', function(evt) {
       var real_this = $(this);
       app.open_file(real_this.attr('data-json'));
       app.switch_page('map_canvas');
       evt.preventDefault();
   });
-
 }
 
 $(document).ready(function(){
   app = new BluetoothMap('app');
+  init_pages();
   app.init_google_map("map_canvas");
-  app.switch_page('home');
 
   $('.link_button').bind('click', function(evt){
     if('map_canvas' == $(this).attr('data-page')) {
@@ -54,12 +49,14 @@ $(document).ready(function(){
         app.switch_page('setting');
         return;
       }
-
-      app.start_map();
     }
 
     app.switch_page($(this).attr('data-page'));
     evt.preventDefault();
+  });
+
+  $('.link_button.start_map').live('click', function(){
+    app.start_map();
   });
 
   $('#save_kml .save_button').bind('click', function(evt){
@@ -69,9 +66,6 @@ $(document).ready(function(){
     app.switch_page('map_canvas');
     evt.preventDefault();
   });
-
-  init_pages();
-  blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, function(){
-    app.switch_page('home');
-  });
+  
+  app.switch_page('home');
 });
