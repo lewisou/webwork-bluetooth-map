@@ -26,3 +26,72 @@ li {
 	padding: 0;
 	
 }
+
+#home {
+	height: 360px;
+	width: 480px;
+	background-image: url('../images/home-bg.png');
+}
+
+#home .links {
+	position: absolute;
+	top: 307px;
+	left: 30px;
+}
+
+#home .links a {
+	margin-right: 43px;
+	padding: 15px;
+}
+
+#home .links a,
+#home .links a:visited,
+#home .links a:hover {
+	font-weight: bold;
+	text-decoration: none;
+	color: #444;
+	font-size: 16px;
+	font-family: Arial;
+}
+
+#setting ul.devices {
+	padding: 10px;
+}
+
+#setting ul.devices li{
+	padding: 10px;
+	background-color: #dfdfdf;
+	margin-bottom: 5px;
+}
+
+#setting a.link_button {
+	padding: 10px;
+	background-color: #fff;
+	text-decoration: none;
+	display: block;
+}
+
+#open_kml a,
+#open_kml a:visited,
+#open_kml a:hover {
+	padding: 5px 10px;
+	font-size: 20px;
+	text-decoration: none;
+	display: block;
+	color: black;
+}
+
+#open_kml ul {
+	padding: 10px;
+	margin-bottom: 5px;
+}
+
+#open_kml ul li {
+	padding: 10px;
+	background-color: #dfdfdf;
+	margin-bottom: 5px;
+}
+
+#save_kml h1, #save_kml h3, #save_kml input {
+	margin-left: 10px;
+}

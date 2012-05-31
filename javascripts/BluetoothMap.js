@@ -17,7 +17,7 @@ BluetoothMap.prototype = {
     locator_bt_key : null,
     logs : [],
     current_page : 'home',
-
+    markers : [],
 
     latest_gps : {values : {}},
     latest_lat : 0,
@@ -30,23 +30,31 @@ BluetoothMap.prototype = {
         if (mh.getMenuItems().length > 0) {
             mh.clearMenuItems();
         }
+        
+        if(this.current_page == 'map_canvas') {
+            mh.addMenuItem(
+                new mh.MenuItem(false, 1, "Save", function() {
+                    if(real_this.saved_file) {
+                        real_this.save_file();
+                    } else {
+                        real_this.switch_page('save_kml');
+                    }
+                })
+            );
+        }
 
         mh.addMenuItem(
-            new mh.MenuItem(false, 1, "Save", function() {
-                if(real_this.saved_file) {
-                    real_this.save_file();
-                } else {
-                    real_this.switch_page('save_kml');
-                }
+            new mh.MenuItem(false, 2, "Back", function() {
+                real_this.switch_page('home');
             })
         );
 
-        mh.addMenuItem(
-            new mh.MenuItem(false, 2, "Connect to Locator", function() {
-              var locator_saved_addr = this.get_locator_addr() || '';
-              real_this.connect_to_locator(locator_saved_addr);
-            })
-        );
+        // mh.addMenuItem(
+        //     new mh.MenuItem(false, 2, "Connect to Locator", function() {
+        //       var locator_saved_addr = this.get_locator_addr() || '';
+        //       real_this.connect_to_locator(locator_saved_addr);
+        //     })
+        // );
     },
 
     start_map : function() {
@@ -92,11 +100,7 @@ BluetoothMap.prototype = {
         // alert(this.latest_gps.values.longt || 0);
 
         var newPointLocation = this.get_latest_location();
-        var newPoint = new google.maps.Marker({
-            position: newPointLocation,
-            title: mess
-        });
-        newPoint.setMap(this.map);
+        this.add_marker(newPointLocation, log);
         this.map.setCenter(newPointLocation);
         // this.latest_gps.expired = true;
         // this.waiting_gps = true;
@@ -149,25 +153,21 @@ BluetoothMap.prototype = {
     },
 
     switch_page : function(page) {
-        // var param = {}
-        // // arguments.length > 1 ? arguments[1] : {transition: 'flip'}
-        // $.mobile.changePage(page + '.html', param);
-        // // $('#' + page + '-page').trigger( "pageinit" );
         if(this.current_page == 'map_canvas') {
             if(vxmt) {
               var bluetooth = vxmt.bluetooth.basic;
               bluetooth.close(this.locator_bt_key);
               this.locator_bt_key = null;
-              // vxmt.gps.basic.stop_listen();
+
             }
         }
 
         if(page == 'home') {
-            if(blackberry) {
+            if(vxmt) {
               blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, null);
             }
         } else {
-          if(blackberry) {
+          if(vxmt) {
             blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, function(){
               app.switch_page('home');
             });
@@ -177,6 +177,10 @@ BluetoothMap.prototype = {
         $('div.page').hide();
         $('#' + page).show();
         this.current_page = page;
+        
+        if(vxmt) {
+            this.init_menus();
+        }
     },
 
     pop_menu : function() {
@@ -186,16 +190,19 @@ BluetoothMap.prototype = {
     open_file : function(json_file) {
         var real_this = this;
 
-        // real_this.attr('data-json')
-        blackberry.io.file.readFile(real_this.file_path + json_file, function(_fullPath, contentBlob) {
-            real_this.logs = JSON.parse(blackberry.utils.blobToString(contentBlob));
-            $(real_this.logs).each(function(ind, ele){
-                ele.prototype = LocatorData.prototype;
-            });
-        }, false);
+        if(blackberry) {
+            // real_this.attr('data-json')
+            blackberry.io.file.readFile(real_this.file_path + json_file, function(_fullPath, contentBlob) {
+                real_this.logs = JSON.parse(blackberry.utils.blobToString(contentBlob));
+                $(real_this.logs).each(function(ind, ele){
+                    ele.prototype = LocatorData.prototype;
+                });
+            }, false);
+        }
         
         real_this.saved_file = true;
         real_this.file_name = json_file.substr(0, json_file.length - 5);
+        real_this.apply_logs_to_map();
     },
 
     save_file : function() {
@@ -204,10 +211,41 @@ BluetoothMap.prototype = {
         var kmlFilePath = app.file_path + this.file_name + '.kml'
         var jsonFilePath = app.file_path + this.file_name + '.json'
 
-        blackberry.io.file.saveFile(kmlFilePath, blackberry.utils.stringToBlob(kml.kml_stream()));
-        blackberry.io.file.saveFile(jsonFilePath, blackberry.utils.stringToBlob(JSON.stringify(app.logs)));
+        if(blackberry) {
+            blackberry.io.file.saveFile(kmlFilePath, blackberry.utils.stringToBlob(kml.kml_stream()));
+            blackberry.io.file.saveFile(jsonFilePath, blackberry.utils.stringToBlob(JSON.stringify(app.logs)));
+        } else {
+            console.log(JSON.stringify(app.logs).to_s);
+            console.log('Saved file: ' + jsonFilePath);
+        }
         
         this.saved_file = true;
+    },
+
+    apply_logs_to_map : function() {
+        var real_this = this;
+        $(this.markers).each(function(indx, ele){
+            ele.setMap(null);
+        });
+        this.markers = [];
+        
+        $(this.logs).each(function(indx, ele){
+            var po = new google.maps.LatLng(ele.gps.lat || 0, ele.gps.longt || 0);
+            real_this.add_marker(po, ele);
+        });
+    },
+    
+    add_marker : function(location, log) {
+        var newPoint = new google.maps.Marker({
+            position: location,
+            title: log.pop_up_mess()
+        });
+        google.maps.event.addListener(newPoint, 'click', function(){
+            alert(log.pop_up_mess());
+        });
+
+        newPoint.setMap(this.map);
+        this.markers.push(newPoint);
     },
 
     init_google_map : function(div_id) {
@@ -215,18 +253,18 @@ BluetoothMap.prototype = {
 
       var myOptions = {
         center: init_center,
-        zoom: 13,
+        zoom: 17,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         panControl: true,
         zoomControl: true
       };
       this.map = new google.maps.Map(document.getElementById(div_id), myOptions);
 
-      var image = 'images/current_location.png';
+      var image = '../images/current_location.png';
       this.current_location_marker = new google.maps.Marker({
           position: init_center,
+          icon: image,
           map: this.map
-          // icon: image
       });
     },
 

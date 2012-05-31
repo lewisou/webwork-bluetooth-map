@@ -33,5 +33,11 @@ LocatorData.prototype = {
     set_gps : function(data) {
         this.gps = data;
         this.has_gps = true;
+    },
+
+    pop_up_mess : function(){
+        var vals = ['No#: ' + this.log_index, 'Type: ' + this.log_type, 'Frequency: ' + this.log_frequency, 'Depth: ' + this.log_depth, 
+        'Current: ' + this.log_current, 'DM Curr: ' + this.log_dm_current, 'Direction: ' + this.log_direction];
+        return vals.join('\n');
     }
 }

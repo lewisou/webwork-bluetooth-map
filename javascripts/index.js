@@ -32,6 +32,7 @@ function init_pages(){
   $('#open_kml .file_list a').live('click', function(evt) {
       var real_this = $(this);
       app.open_file(real_this.attr('data-json'));
+      app.start_map();
       app.switch_page('map_canvas');
       evt.preventDefault();
   });
