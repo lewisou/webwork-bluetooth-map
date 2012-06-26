@@ -54,6 +54,11 @@ li {
 	font-family: Arial;
 }
 
+#home .links a:hover {
+	color: #000;
+	font-weight: bolder;
+}
+
 #setting ul.devices {
 	padding: 10px;
 }

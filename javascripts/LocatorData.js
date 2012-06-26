@@ -24,6 +24,8 @@ var LocatorData = function(raw_data){
         case 1: this.log_direction = 'Backward'; break;
         case 2: this.log_direction = 'Undetermined'; break;
     }
+    
+    this.timestamp = new Date();
 }
 
 LocatorData.prototype = {
@@ -37,7 +39,13 @@ LocatorData.prototype = {
 
     pop_up_mess : function(){
         var vals = ['No#: ' + this.log_index, 'Type: ' + this.log_type, 'Frequency: ' + this.log_frequency, 'Depth: ' + this.log_depth, 
-        'Current: ' + this.log_current, 'DM Curr: ' + this.log_dm_current, 'Direction: ' + this.log_direction];
+        'Current: ' + this.log_current, 'DM Curr: ' + this.log_dm_current, 'Direction: ' + this.log_direction, 'Time: ' + this.timestamp];
+
+        if(this.gps.lat && this.gps.longt) {
+            var gps_info = ['Latitude: ' + this.gps.lat, 'Longtitude: ' + this.gps.longt];
+            vals = vals.concat(gps_info);
+        }
+
         return vals.join('\n');
     }
 }

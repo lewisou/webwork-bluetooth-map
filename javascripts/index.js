@@ -19,23 +19,30 @@ function init_pages(){
   });
 
   //init open kml page --------------------------------------------------
-  $('#open_kml .file_list').children().remove();
-  var files =  vxmt ? blackberry.io.dir.listFiles(app.file_path) : ['a.kml', 'a.json', 'b.kml', 'b.json'];
-  var i = 0;
-  for (i = 0; i < files.length; i ++) {
-      if(files[i].substr(-3) == 'kml') {
-          var json_file = files[i].substr(0, files[i].length - 4) + '.json';
-          var new_ele = $('<li><a data-json="' + json_file + '" href="#">' + files[i] +  '</a></li>');
-          $('#open_kml .file_list').append(new_ele);
-      }
-  }
   $('#open_kml .file_list a').live('click', function(evt) {
       var real_this = $(this);
+
       app.open_file(real_this.attr('data-json'));
+
       app.start_map();
+
       app.switch_page('map_canvas');
+
       evt.preventDefault();
   });
+}
+
+function refresh_file_list() {
+    $('#open_kml .file_list').children().remove();
+    var files =  vxmt ? blackberry.io.dir.listFiles(app.file_path) : ['a.kml', 'a.json', 'b.kml', 'b.json'];
+    var i = 0;
+    for (i = 0; i < files.length; i ++) {
+        if(files[i].substr(-3) == 'kml') {
+            var json_file = files[i].substr(0, files[i].length - 4) + '.json';
+            var new_ele = $('<li><a data-json="' + json_file + '" href="#">' + files[i] +  '</a></li>');
+            $('#open_kml .file_list').append(new_ele);
+        }
+    }
 }
 
 $(document).ready(function(){
@@ -57,16 +64,20 @@ $(document).ready(function(){
   });
 
   $('.link_button.start_map').live('click', function(){
-    app.start_map();
+      app.start_map();
+  });
+
+  $('.link_button.open_map').live('click', function(){
+      refresh_file_list();
   });
 
   $('#save_kml .save_button').bind('click', function(evt){
     app.file_name = $('#save_kml .save_file_name').val();
     app.save_file();
     alert('File saved.');
-    app.switch_page('map_canvas');
+    app.switch_page('home');
     evt.preventDefault();
   });
-  
+
   app.switch_page('home');
 });

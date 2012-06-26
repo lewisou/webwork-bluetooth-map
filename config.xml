@@ -14,6 +14,7 @@
     <feature id="blackberry.ui.dialog" />
     <feature id="blackberry.system.event" />
     <feature id="blackberry.io.dir" />
+
     <feature id="blackberry.io.file" />
     <feature id="blackberry.utils" />
 

@@ -2,10 +2,16 @@ var blackberry;
 var vxmt;
 var BluetoothMap = function(map_name) {
     this.map_name = map_name;
-    this.file_path = "file:///SDCard/";
+    this.file_path = "file:///SDCard/vmmap/";
+
+    if(vxmt) {
+        if(!blackberry.io.dir.exists(this.file_path)) {
+            blackberry.io.dir.createNewDir(this.file_path);
+        }
+    }
 
     this.update_latest_location(localStorage.getItem("latest_lat") || 31.178882, localStorage.getItem("latest_longt") || 121.403561);
-    
+
     if(vxmt) {
         vxmt.gps.basic.start_listen(this.map_name + '.gps_mess_arrived');
     }
@@ -153,11 +159,12 @@ BluetoothMap.prototype = {
     },
 
     switch_page : function(page) {
+        var real_this = this;
         if(this.current_page == 'map_canvas') {
             if(vxmt) {
               var bluetooth = vxmt.bluetooth.basic;
               bluetooth.close(this.locator_bt_key);
-              this.locator_bt_key = null;
+              real_this.locator_bt_key = null;
 
             }
         }
@@ -169,14 +176,14 @@ BluetoothMap.prototype = {
         } else {
           if(vxmt) {
             blackberry.system.event.onHardwareKey(blackberry.system.event.KEY_BACK, function(){
-              app.switch_page('home');
+              real_this.switch_page('home');
             });
           }
         }
 
         $('div.page').hide();
         $('#' + page).show();
-        this.current_page = page;
+        real_this.current_page = page;
         
         if(vxmt) {
             this.init_menus();
@@ -187,19 +194,28 @@ BluetoothMap.prototype = {
         blackberry.ui.menu.open();
     },
 
-    open_file : function(json_file) {
+    open_file : function(json_file, file_content) {
         var real_this = this;
 
+        this.logs = [];
         if(blackberry) {
-            // real_this.attr('data-json')
             blackberry.io.file.readFile(real_this.file_path + json_file, function(_fullPath, contentBlob) {
-                real_this.logs = JSON.parse(blackberry.utils.blobToString(contentBlob));
-                $(real_this.logs).each(function(ind, ele){
-                    ele.prototype = LocatorData.prototype;
+                var datas = JSON.parse(blackberry.utils.blobToString(contentBlob));
+                $(datas).each(function(ind, dat){
+                    var ld = new LocatorData(dat.log_data);
+                    ld.gps = dat.gps;
+                    real_this.logs.push(ld);
                 });
             }, false);
+        } else {
+            var datas = JSON.parse(file_content);
+            $(datas).each(function(ind, dat){
+                var ld = new LocatorData(dat.log_data);
+                ld.gps = dat.gps;
+                real_this.logs.push(ld);
+            });
         }
-        
+
         real_this.saved_file = true;
         real_this.file_name = json_file.substr(0, json_file.length - 5);
         real_this.apply_logs_to_map();
@@ -215,7 +231,7 @@ BluetoothMap.prototype = {
             blackberry.io.file.saveFile(kmlFilePath, blackberry.utils.stringToBlob(kml.kml_stream()));
             blackberry.io.file.saveFile(jsonFilePath, blackberry.utils.stringToBlob(JSON.stringify(app.logs)));
         } else {
-            console.log(JSON.stringify(app.logs).to_s);
+            console.log(JSON.stringify(app.logs));
             console.log('Saved file: ' + jsonFilePath);
         }
         
@@ -228,9 +244,10 @@ BluetoothMap.prototype = {
             ele.setMap(null);
         });
         this.markers = [];
-        
+        // this.logs = [];
         $(this.logs).each(function(indx, ele){
             var po = new google.maps.LatLng(ele.gps.lat || 0, ele.gps.longt || 0);
+            // alert('lat :' + ele.gps.lat);
             real_this.add_marker(po, ele);
         });
     },

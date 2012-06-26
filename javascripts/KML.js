@@ -23,7 +23,7 @@ KML.prototype = {
     render_single_placemark : function(log) {
         return ['<Placemark>', 
                     '<name>' + log.log_type + ' #' + log.log_index + '</name>',
-                    '<description>blank</description>',
+                    '<description>' + log.pop_up_mess() + '</description>',
                     '<Point>',
                     '<coordinates>' + log.gps.longt + ',' + log.gps.lat + ',0</coordinates>',
                     '</Point>',
